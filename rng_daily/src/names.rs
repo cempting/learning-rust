@@ -12,7 +12,10 @@ pub fn load_names(filename : &str) -> Names {
     let split = contents.split("\n");
 
     let names : Vec<&str> = split.collect::<Vec<&str>>();
-    names.iter().filter( |name| !name.starts_with('#')).map( |&s| s.into()).collect()
+    names.iter()
+         .filter( |name| !name.starts_with('#'))
+         .map( |&s| s.into())
+         .collect()
 }
 
 pub fn load_shuffled_names(filename : &str) -> Names {
