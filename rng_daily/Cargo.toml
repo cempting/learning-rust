@@ -10,3 +10,7 @@ edition = "2018"
 clap = { version = "3.1.18", features = ["derive"] }
 termion = "1.5.6"
 rand = "0.8.5"
+anyhow = "1.0.57"
+crossbeam-channel = "0.5.4"
+signal-hook = "0.3.14"
+

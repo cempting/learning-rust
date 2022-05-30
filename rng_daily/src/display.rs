@@ -1,7 +1,14 @@
 extern crate termion; 
 
+use std::io;
 use std::io::{stdin, Read};
 use std::time::Duration;
+use std::thread;
+
+use crossbeam_channel::{bounded, select, tick, Receiver};
+use signal_hook::consts::SIGINT;
+use signal_hook::iterator::Signals;
+
 use termion::{color};
 
 use crate::font;
@@ -9,6 +16,21 @@ use crate::font;
 fn pause(text : &str) {
     println!("{}", text);
     stdin().read(&mut [0]).unwrap();
+}
+
+fn sigint_notifier() -> io::Result<Receiver<()>> {
+    let (s, r) = bounded(100);
+    let mut signals = Signals::new(&[SIGINT])?;
+
+    thread::spawn(move || {
+        for _ in signals.forever() {
+            if s.send(()).is_err() {
+                break;
+            }
+        }
+    });
+
+    Ok(r)
 }
 
 fn print_timer(font : &font::Font, countdown : &std::time::Duration) {
@@ -33,15 +55,23 @@ pub fn countdown(font : &font::Font, name : &String, duration : &std::time::Dura
 
     let mut countdown = *duration;
     let interval = Duration::from_secs(1);
+    let ctrl_c_events = sigint_notifier().unwrap();
+    let ticks = tick(interval);
+   
     loop {
-        countdown -= interval;
-
-        print_timer(&font, &countdown);
-        
-        std::thread::sleep(interval);
-        if countdown <= Duration::from_secs(0) {
-            pause("Danke ...");
-            return
+        select! {
+            recv(ticks) -> _ => {
+                countdown -= interval;
+                print_timer(&font, &countdown);
+                if countdown <= Duration::from_secs(0) {
+                    pause("Danke ...");
+                    break
+                }
+            }
+            recv(ctrl_c_events) -> _ => {
+                pause("Nächster ...");
+                break;
+            }
         }
     }
 }
