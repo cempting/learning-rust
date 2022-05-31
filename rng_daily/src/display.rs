@@ -37,9 +37,9 @@ fn print_timer(font : &font::Font, countdown : &std::time::Duration) {
     print!("{}", termion::cursor::Goto(1, 10));
 
     match countdown.as_secs() {
-        10..=19 => print!("{}", color::Fg(color::Yellow)),
-        0..=9 => print!("{}", color::Fg(color::Red)),
-        _ => print!("{}", color::Fg(color::Green)),
+        10..=19 => print!("{}", color::Fg(color::LightYellow)),
+        0..=9 => print!("{}", color::Fg(color::LightRed)),
+        _ => print!("{}", color::Fg(color::LightGreen)),
     }
 
     let min = countdown.as_secs() / 60;

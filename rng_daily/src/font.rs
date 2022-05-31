@@ -178,12 +178,12 @@ impl Font {
 													String::from("██║     "),
 													String::from("██║     "),
 													String::from("███████╗"),
-													String::from(" ╚═════╝")]));
+													String::from("╚══════╝")]));
 
 		glyphs.insert('M', glyph::Glyph::new(vec![	String::from("██╗  ██╗"),
 													String::from("███████║"),
-													String::from("██║█ ██║"),
-													String::from("██║╚═██║"),
+													String::from("██║█╔██║"),
+													String::from("██║╚╝██║"),
 													String::from("██║  ██║"),
 													String::from("╚═╝  ╚═╝")]));
 

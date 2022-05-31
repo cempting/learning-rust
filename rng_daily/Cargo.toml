@@ -14,3 +14,8 @@ anyhow = "1.0.57"
 crossbeam-channel = "0.5.4"
 signal-hook = "0.3.14"
 
+[profile.release]
+overflow-checks = true
+
+[profile.dev]
+opt-level = 3
