@@ -13,8 +13,8 @@ pub fn load_names(filename : &str) -> Names {
 
     let names : Vec<&str> = split.collect::<Vec<&str>>();
     names.iter()
-         .filter( |name| !name.starts_with('#'))
-         .map( |&s| s.into())
+         .filter( |name| !name.starts_with('#') )
+         .map( |&s| s.into() )
          .collect()
 }
 

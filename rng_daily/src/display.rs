@@ -50,7 +50,7 @@ fn print_timer(font : &font::Font, countdown : &std::time::Duration) {
 pub fn countdown(font : &font::Font, name : &String, duration : &std::time::Duration) {
 
     print!("{}{}{}", termion::clear::All, termion::cursor::Goto(1, 1), color::Fg(color::LightCyan));
-    font.print(format!("{}", name).as_str());
+    font.print(format!("{}", name.to_uppercase()).as_str());
     pause("Du bist dran ...");
 
     let mut countdown = *duration;
